@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qianqian.user.mapper.RechargeRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.qianqian.user.model.RechargeRecord" >
+    <id column="record_id" property="recordId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="recharge_time" property="rechargeTime" jdbcType="TIMESTAMP" />
+    <result column="recharge_count" property="rechargeCount" jdbcType="INTEGER" />
+    <result column="recharge_money" property="rechargeMoney" jdbcType="DECIMAL" />
+    <result column="current_balance" property="currentBalance" jdbcType="INTEGER" />
+    <result column="recharge_project" property="rechargeProject" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    record_id, user_id, recharge_time, recharge_count, recharge_money, current_balance, 
+    recharge_project
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.qianqian.user.model.RechargeRecordExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from mem_recharge_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from mem_recharge_record
+    where record_id = #{recordId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from mem_recharge_record
+    where record_id = #{recordId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.qianqian.user.model.RechargeRecordExample" >
+    delete from mem_recharge_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.qianqian.user.model.RechargeRecord" >
+    insert into mem_recharge_record (record_id, user_id, recharge_time, 
+      recharge_count, recharge_money, current_balance, 
+      recharge_project)
+    values (#{recordId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{rechargeTime,jdbcType=TIMESTAMP}, 
+      #{rechargeCount,jdbcType=INTEGER}, #{rechargeMoney,jdbcType=DECIMAL}, #{currentBalance,jdbcType=INTEGER}, 
+      #{rechargeProject,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qianqian.user.model.RechargeRecord" >
+    insert into mem_recharge_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="recordId != null" >
+        record_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="rechargeTime != null" >
+        recharge_time,
+      </if>
+      <if test="rechargeCount != null" >
+        recharge_count,
+      </if>
+      <if test="rechargeMoney != null" >
+        recharge_money,
+      </if>
+      <if test="currentBalance != null" >
+        current_balance,
+      </if>
+      <if test="rechargeProject != null" >
+        recharge_project,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="recordId != null" >
+        #{recordId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="rechargeTime != null" >
+        #{rechargeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rechargeCount != null" >
+        #{rechargeCount,jdbcType=INTEGER},
+      </if>
+      <if test="rechargeMoney != null" >
+        #{rechargeMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="currentBalance != null" >
+        #{currentBalance,jdbcType=INTEGER},
+      </if>
+      <if test="rechargeProject != null" >
+        #{rechargeProject,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.qianqian.user.model.RechargeRecordExample" resultType="java.lang.Integer" >
+    select count(*) from mem_recharge_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update mem_recharge_record
+    <set >
+      <if test="record.recordId != null" >
+        record_id = #{record.recordId,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.rechargeTime != null" >
+        recharge_time = #{record.rechargeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.rechargeCount != null" >
+        recharge_count = #{record.rechargeCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.rechargeMoney != null" >
+        recharge_money = #{record.rechargeMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="record.currentBalance != null" >
+        current_balance = #{record.currentBalance,jdbcType=INTEGER},
+      </if>
+      <if test="record.rechargeProject != null" >
+        recharge_project = #{record.rechargeProject,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update mem_recharge_record
+    set record_id = #{record.recordId,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      recharge_time = #{record.rechargeTime,jdbcType=TIMESTAMP},
+      recharge_count = #{record.rechargeCount,jdbcType=INTEGER},
+      recharge_money = #{record.rechargeMoney,jdbcType=DECIMAL},
+      current_balance = #{record.currentBalance,jdbcType=INTEGER},
+      recharge_project = #{record.rechargeProject,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qianqian.user.model.RechargeRecord" >
+    update mem_recharge_record
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="rechargeTime != null" >
+        recharge_time = #{rechargeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rechargeCount != null" >
+        recharge_count = #{rechargeCount,jdbcType=INTEGER},
+      </if>
+      <if test="rechargeMoney != null" >
+        recharge_money = #{rechargeMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="currentBalance != null" >
+        current_balance = #{currentBalance,jdbcType=INTEGER},
+      </if>
+      <if test="rechargeProject != null" >
+        recharge_project = #{rechargeProject,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where record_id = #{recordId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qianqian.user.model.RechargeRecord" >
+    update mem_recharge_record
+    set user_id = #{userId,jdbcType=BIGINT},
+      recharge_time = #{rechargeTime,jdbcType=TIMESTAMP},
+      recharge_count = #{rechargeCount,jdbcType=INTEGER},
+      recharge_money = #{rechargeMoney,jdbcType=DECIMAL},
+      current_balance = #{currentBalance,jdbcType=INTEGER},
+      recharge_project = #{rechargeProject,jdbcType=VARCHAR}
+    where record_id = #{recordId,jdbcType=BIGINT}
+  </update>
+</mapper>

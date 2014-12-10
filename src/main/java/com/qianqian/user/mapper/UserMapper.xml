@@ -1,0 +1,815 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qianqian.user.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.qianqian.user.model.User" >
+    <id column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="level" property="level" jdbcType="TINYINT" />
+    <result column="role" property="role" jdbcType="SMALLINT" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="identification" property="identification" jdbcType="CHAR" />
+    <result column="password" property="password" jdbcType="CHAR" />
+    <result column="gender" property="gender" jdbcType="TINYINT" />
+    <result column="small_head_image" property="smallHeadImage" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="active" property="active" jdbcType="TINYINT" />
+    <result column="experience_value" property="experienceValue" jdbcType="BIGINT" />
+    <result column="score" property="score" jdbcType="BIGINT" />
+    <result column="medal_count" property="medalCount" jdbcType="BIGINT" />
+    <result column="ingot" property="ingot" jdbcType="BIGINT" />
+    <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
+    <result column="passwd_strength" property="passwdStrength" jdbcType="TINYINT" />
+    <result column="last_modified_time" property="lastModifiedTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="enable_email_subscription" property="enableEmailSubscription" jdbcType="TINYINT" />
+    <result column="enable_phone_subscription" property="enablePhoneSubscription" jdbcType="TINYINT" />
+    <result column="middle_head_url" property="middleHeadUrl" jdbcType="VARCHAR" />
+    <result column="big_head_url" property="bigHeadUrl" jdbcType="VARCHAR" />
+    <result column="qq" property="qq" jdbcType="VARCHAR" />
+    <result column="weixin" property="weixin" jdbcType="VARCHAR" />
+    <result column="education" property="education" jdbcType="TINYINT" />
+    <result column="brithday" property="brithday" jdbcType="DATE" />
+    <result column="profession" property="profession" jdbcType="INTEGER" />
+    <result column="province" property="province" jdbcType="TINYINT" />
+    <result column="city" property="city" jdbcType="SMALLINT" />
+    <result column="district" property="district" jdbcType="INTEGER" />
+    <result column="interest" property="interest" jdbcType="VARCHAR" />
+    <result column="last_modify_district_time" property="lastModifyDistrictTime" jdbcType="DATE" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="invite_count" property="inviteCount" jdbcType="INTEGER" />
+    <result column="expired_time" property="expiredTime" jdbcType="TIMESTAMP" />
+    <result column="province_name" property="provinceName" jdbcType="VARCHAR" />
+    <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+    <result column="district_name" property="districtName" jdbcType="VARCHAR" />
+    <result column="profession_name" property="professionName" jdbcType="VARCHAR" />
+  </resultMap>
+   <select id="selectExists" resultType="java.lang.Long" parameterType="map" >
+    select user_id   
+    from mem_user
+    where 1=1 
+    <if test="phone!=null" >
+    	and phone=#{phone}
+    </if>
+    <if test="nickname!=null">
+        and nickname=#{nickname}
+    </if>
+    <if test="identification!=null">
+    	and identification=#{identification}
+    </if>
+    <if test="email!=null">
+    	and email=#{email}
+    </if>
+    limit 0,1
+  </select>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    user_id, level, role, email, phone, name, nickname, identification, password, gender, 
+    small_head_image, status, active, experience_value, score, medal_count, ingot, last_login_time, 
+    passwd_strength, last_modified_time, create_time, enable_email_subscription, enable_phone_subscription, 
+    middle_head_url, big_head_url, qq, weixin, education, brithday, profession, province, 
+    city, district, interest, last_modify_district_time, address, invite_count, expired_time, 
+    province_name, city_name, district_name, profession_name
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.qianqian.user.model.UserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from mem_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from mem_user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from mem_user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.qianqian.user.model.UserExample" >
+    delete from mem_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.qianqian.user.model.User" >
+    insert into mem_user (user_id, level, role, 
+      email, phone, name, 
+      nickname, identification, password, 
+      gender, small_head_image, status, 
+      active, experience_value, score, 
+      medal_count, ingot, last_login_time, 
+      passwd_strength, last_modified_time, create_time, 
+      enable_email_subscription, enable_phone_subscription, 
+      middle_head_url, big_head_url, qq, 
+      weixin, education, brithday, 
+      profession, province, city, 
+      district, interest, last_modify_district_time, 
+      address, invite_count, expired_time, 
+      province_name, city_name, district_name, 
+      profession_name)
+    values (uuid_short(), #{level,jdbcType=TINYINT}, #{role,jdbcType=SMALLINT}, 
+      #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{nickname,jdbcType=VARCHAR}, #{identification,jdbcType=CHAR}, #{password,jdbcType=CHAR}, 
+      #{gender,jdbcType=TINYINT}, #{smallHeadImage,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{active,jdbcType=TINYINT}, #{experienceValue,jdbcType=BIGINT}, #{score,jdbcType=BIGINT}, 
+      #{medalCount,jdbcType=BIGINT}, #{ingot,jdbcType=BIGINT}, #{lastLoginTime,jdbcType=TIMESTAMP}, 
+      #{passwdStrength,jdbcType=TINYINT}, #{lastModifiedTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{enableEmailSubscription,jdbcType=TINYINT}, #{enablePhoneSubscription,jdbcType=TINYINT}, 
+      #{middleHeadUrl,jdbcType=VARCHAR}, #{bigHeadUrl,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, 
+      #{weixin,jdbcType=VARCHAR}, #{education,jdbcType=TINYINT}, #{brithday,jdbcType=DATE}, 
+      #{profession,jdbcType=INTEGER}, #{province,jdbcType=TINYINT}, #{city,jdbcType=SMALLINT}, 
+      #{district,jdbcType=INTEGER}, #{interest,jdbcType=VARCHAR}, #{lastModifyDistrictTime,jdbcType=DATE}, 
+      #{address,jdbcType=VARCHAR}, #{inviteCount,jdbcType=INTEGER}, #{expiredTime,jdbcType=TIMESTAMP}, 
+      #{provinceName,jdbcType=VARCHAR}, #{cityName,jdbcType=VARCHAR}, #{districtName,jdbcType=VARCHAR}, 
+      #{professionName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qianqian.user.model.User" >
+    insert into mem_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="role != null" >
+        role,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="nickname != null" >
+        nickname,
+      </if>
+      <if test="identification != null" >
+        identification,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="smallHeadImage != null" >
+        small_head_image,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="active != null" >
+        active,
+      </if>
+      <if test="experienceValue != null" >
+        experience_value,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="medalCount != null" >
+        medal_count,
+      </if>
+      <if test="ingot != null" >
+        ingot,
+      </if>
+      <if test="lastLoginTime != null" >
+        last_login_time,
+      </if>
+      <if test="passwdStrength != null" >
+        passwd_strength,
+      </if>
+      <if test="lastModifiedTime != null" >
+        last_modified_time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="enableEmailSubscription != null" >
+        enable_email_subscription,
+      </if>
+      <if test="enablePhoneSubscription != null" >
+        enable_phone_subscription,
+      </if>
+      <if test="middleHeadUrl != null" >
+        middle_head_url,
+      </if>
+      <if test="bigHeadUrl != null" >
+        big_head_url,
+      </if>
+      <if test="qq != null" >
+        qq,
+      </if>
+      <if test="weixin != null" >
+        weixin,
+      </if>
+      <if test="education != null" >
+        education,
+      </if>
+      <if test="brithday != null" >
+        brithday,
+      </if>
+      <if test="profession != null" >
+        profession,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="district != null" >
+        district,
+      </if>
+      <if test="interest != null" >
+        interest,
+      </if>
+      <if test="lastModifyDistrictTime != null" >
+        last_modify_district_time,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="inviteCount != null" >
+        invite_count,
+      </if>
+      <if test="expiredTime != null" >
+        expired_time,
+      </if>
+      <if test="provinceName != null" >
+        province_name,
+      </if>
+      <if test="cityName != null" >
+        city_name,
+      </if>
+      <if test="districtName != null" >
+        district_name,
+      </if>
+      <if test="professionName != null" >
+        profession_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=TINYINT},
+      </if>
+      <if test="role != null" >
+        #{role,jdbcType=SMALLINT},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="identification != null" >
+        #{identification,jdbcType=CHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=CHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="smallHeadImage != null" >
+        #{smallHeadImage,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="active != null" >
+        #{active,jdbcType=TINYINT},
+      </if>
+      <if test="experienceValue != null" >
+        #{experienceValue,jdbcType=BIGINT},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=BIGINT},
+      </if>
+      <if test="medalCount != null" >
+        #{medalCount,jdbcType=BIGINT},
+      </if>
+      <if test="ingot != null" >
+        #{ingot,jdbcType=BIGINT},
+      </if>
+      <if test="lastLoginTime != null" >
+        #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="passwdStrength != null" >
+        #{passwdStrength,jdbcType=TINYINT},
+      </if>
+      <if test="lastModifiedTime != null" >
+        #{lastModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enableEmailSubscription != null" >
+        #{enableEmailSubscription,jdbcType=TINYINT},
+      </if>
+      <if test="enablePhoneSubscription != null" >
+        #{enablePhoneSubscription,jdbcType=TINYINT},
+      </if>
+      <if test="middleHeadUrl != null" >
+        #{middleHeadUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="bigHeadUrl != null" >
+        #{bigHeadUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null" >
+        #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="weixin != null" >
+        #{weixin,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=TINYINT},
+      </if>
+      <if test="brithday != null" >
+        #{brithday,jdbcType=DATE},
+      </if>
+      <if test="profession != null" >
+        #{profession,jdbcType=INTEGER},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=TINYINT},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=SMALLINT},
+      </if>
+      <if test="district != null" >
+        #{district,jdbcType=INTEGER},
+      </if>
+      <if test="interest != null" >
+        #{interest,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModifyDistrictTime != null" >
+        #{lastModifyDistrictTime,jdbcType=DATE},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="inviteCount != null" >
+        #{inviteCount,jdbcType=INTEGER},
+      </if>
+      <if test="expiredTime != null" >
+        #{expiredTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="provinceName != null" >
+        #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null" >
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="districtName != null" >
+        #{districtName,jdbcType=VARCHAR},
+      </if>
+      <if test="professionName != null" >
+        #{professionName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.qianqian.user.model.UserExample" resultType="java.lang.Integer" >
+    select count(*) from mem_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update mem_user
+    <set >
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.level != null" >
+        level = #{record.level,jdbcType=TINYINT},
+      </if>
+      <if test="record.role != null" >
+        role = #{record.role,jdbcType=SMALLINT},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null" >
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nickname != null" >
+        nickname = #{record.nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.identification != null" >
+        identification = #{record.identification,jdbcType=CHAR},
+      </if>
+      <if test="record.password != null" >
+        password = #{record.password,jdbcType=CHAR},
+      </if>
+      <if test="record.gender != null" >
+        gender = #{record.gender,jdbcType=TINYINT},
+      </if>
+      <if test="record.smallHeadImage != null" >
+        small_head_image = #{record.smallHeadImage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.active != null" >
+        active = #{record.active,jdbcType=TINYINT},
+      </if>
+      <if test="record.experienceValue != null" >
+        experience_value = #{record.experienceValue,jdbcType=BIGINT},
+      </if>
+      <if test="record.score != null" >
+        score = #{record.score,jdbcType=BIGINT},
+      </if>
+      <if test="record.medalCount != null" >
+        medal_count = #{record.medalCount,jdbcType=BIGINT},
+      </if>
+      <if test="record.ingot != null" >
+        ingot = #{record.ingot,jdbcType=BIGINT},
+      </if>
+      <if test="record.lastLoginTime != null" >
+        last_login_time = #{record.lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.passwdStrength != null" >
+        passwd_strength = #{record.passwdStrength,jdbcType=TINYINT},
+      </if>
+      <if test="record.lastModifiedTime != null" >
+        last_modified_time = #{record.lastModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.enableEmailSubscription != null" >
+        enable_email_subscription = #{record.enableEmailSubscription,jdbcType=TINYINT},
+      </if>
+      <if test="record.enablePhoneSubscription != null" >
+        enable_phone_subscription = #{record.enablePhoneSubscription,jdbcType=TINYINT},
+      </if>
+      <if test="record.middleHeadUrl != null" >
+        middle_head_url = #{record.middleHeadUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bigHeadUrl != null" >
+        big_head_url = #{record.bigHeadUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qq != null" >
+        qq = #{record.qq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weixin != null" >
+        weixin = #{record.weixin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.education != null" >
+        education = #{record.education,jdbcType=TINYINT},
+      </if>
+      <if test="record.brithday != null" >
+        brithday = #{record.brithday,jdbcType=DATE},
+      </if>
+      <if test="record.profession != null" >
+        profession = #{record.profession,jdbcType=INTEGER},
+      </if>
+      <if test="record.province != null" >
+        province = #{record.province,jdbcType=TINYINT},
+      </if>
+      <if test="record.city != null" >
+        city = #{record.city,jdbcType=SMALLINT},
+      </if>
+      <if test="record.district != null" >
+        district = #{record.district,jdbcType=INTEGER},
+      </if>
+      <if test="record.interest != null" >
+        interest = #{record.interest,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastModifyDistrictTime != null" >
+        last_modify_district_time = #{record.lastModifyDistrictTime,jdbcType=DATE},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inviteCount != null" >
+        invite_count = #{record.inviteCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.expiredTime != null" >
+        expired_time = #{record.expiredTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.provinceName != null" >
+        province_name = #{record.provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityName != null" >
+        city_name = #{record.cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.districtName != null" >
+        district_name = #{record.districtName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.professionName != null" >
+        profession_name = #{record.professionName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update mem_user
+    set user_id = #{record.userId,jdbcType=BIGINT},
+      level = #{record.level,jdbcType=TINYINT},
+      role = #{record.role,jdbcType=SMALLINT},
+      email = #{record.email,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      nickname = #{record.nickname,jdbcType=VARCHAR},
+      identification = #{record.identification,jdbcType=CHAR},
+      password = #{record.password,jdbcType=CHAR},
+      gender = #{record.gender,jdbcType=TINYINT},
+      small_head_image = #{record.smallHeadImage,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT},
+      active = #{record.active,jdbcType=TINYINT},
+      experience_value = #{record.experienceValue,jdbcType=BIGINT},
+      score = #{record.score,jdbcType=BIGINT},
+      medal_count = #{record.medalCount,jdbcType=BIGINT},
+      ingot = #{record.ingot,jdbcType=BIGINT},
+      last_login_time = #{record.lastLoginTime,jdbcType=TIMESTAMP},
+      passwd_strength = #{record.passwdStrength,jdbcType=TINYINT},
+      last_modified_time = #{record.lastModifiedTime,jdbcType=TIMESTAMP},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      enable_email_subscription = #{record.enableEmailSubscription,jdbcType=TINYINT},
+      enable_phone_subscription = #{record.enablePhoneSubscription,jdbcType=TINYINT},
+      middle_head_url = #{record.middleHeadUrl,jdbcType=VARCHAR},
+      big_head_url = #{record.bigHeadUrl,jdbcType=VARCHAR},
+      qq = #{record.qq,jdbcType=VARCHAR},
+      weixin = #{record.weixin,jdbcType=VARCHAR},
+      education = #{record.education,jdbcType=TINYINT},
+      brithday = #{record.brithday,jdbcType=DATE},
+      profession = #{record.profession,jdbcType=INTEGER},
+      province = #{record.province,jdbcType=TINYINT},
+      city = #{record.city,jdbcType=SMALLINT},
+      district = #{record.district,jdbcType=INTEGER},
+      interest = #{record.interest,jdbcType=VARCHAR},
+      last_modify_district_time = #{record.lastModifyDistrictTime,jdbcType=DATE},
+      address = #{record.address,jdbcType=VARCHAR},
+      invite_count = #{record.inviteCount,jdbcType=INTEGER},
+      expired_time = #{record.expiredTime,jdbcType=TIMESTAMP},
+      province_name = #{record.provinceName,jdbcType=VARCHAR},
+      city_name = #{record.cityName,jdbcType=VARCHAR},
+      district_name = #{record.districtName,jdbcType=VARCHAR},
+      profession_name = #{record.professionName,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qianqian.user.model.User" >
+    update mem_user
+    <set >
+      <if test="level != null" >
+        level = #{level,jdbcType=TINYINT},
+      </if>
+      <if test="role != null" >
+        role = #{role,jdbcType=SMALLINT},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="identification != null" >
+        identification = #{identification,jdbcType=CHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=CHAR},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="smallHeadImage != null" >
+        small_head_image = #{smallHeadImage,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="active != null" >
+        active = #{active,jdbcType=TINYINT},
+      </if>
+      <if test="experienceValue != null" >
+        experience_value = #{experienceValue,jdbcType=BIGINT},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=BIGINT},
+      </if>
+      <if test="medalCount != null" >
+        medal_count = #{medalCount,jdbcType=BIGINT},
+      </if>
+      <if test="ingot != null" >
+        ingot = #{ingot,jdbcType=BIGINT},
+      </if>
+      <if test="lastLoginTime != null" >
+        last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="passwdStrength != null" >
+        passwd_strength = #{passwdStrength,jdbcType=TINYINT},
+      </if>
+      <if test="lastModifiedTime != null" >
+        last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enableEmailSubscription != null" >
+        enable_email_subscription = #{enableEmailSubscription,jdbcType=TINYINT},
+      </if>
+      <if test="enablePhoneSubscription != null" >
+        enable_phone_subscription = #{enablePhoneSubscription,jdbcType=TINYINT},
+      </if>
+      <if test="middleHeadUrl != null" >
+        middle_head_url = #{middleHeadUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="bigHeadUrl != null" >
+        big_head_url = #{bigHeadUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null" >
+        qq = #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="weixin != null" >
+        weixin = #{weixin,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        education = #{education,jdbcType=TINYINT},
+      </if>
+      <if test="brithday != null" >
+        brithday = #{brithday,jdbcType=DATE},
+      </if>
+      <if test="profession != null" >
+        profession = #{profession,jdbcType=INTEGER},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=TINYINT},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=SMALLINT},
+      </if>
+      <if test="district != null" >
+        district = #{district,jdbcType=INTEGER},
+      </if>
+      <if test="interest != null" >
+        interest = #{interest,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModifyDistrictTime != null" >
+        last_modify_district_time = #{lastModifyDistrictTime,jdbcType=DATE},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="inviteCount != null" >
+        invite_count = #{inviteCount,jdbcType=INTEGER},
+      </if>
+      <if test="expiredTime != null" >
+        expired_time = #{expiredTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="provinceName != null" >
+        province_name = #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null" >
+        city_name = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="districtName != null" >
+        district_name = #{districtName,jdbcType=VARCHAR},
+      </if>
+      <if test="professionName != null" >
+        profession_name = #{professionName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qianqian.user.model.User" >
+    update mem_user
+    set level = #{level,jdbcType=TINYINT},
+      role = #{role,jdbcType=SMALLINT},
+      email = #{email,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      identification = #{identification,jdbcType=CHAR},
+      password = #{password,jdbcType=CHAR},
+      gender = #{gender,jdbcType=TINYINT},
+      small_head_image = #{smallHeadImage,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      active = #{active,jdbcType=TINYINT},
+      experience_value = #{experienceValue,jdbcType=BIGINT},
+      score = #{score,jdbcType=BIGINT},
+      medal_count = #{medalCount,jdbcType=BIGINT},
+      ingot = #{ingot,jdbcType=BIGINT},
+      last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      passwd_strength = #{passwdStrength,jdbcType=TINYINT},
+      last_modified_time = #{lastModifiedTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      enable_email_subscription = #{enableEmailSubscription,jdbcType=TINYINT},
+      enable_phone_subscription = #{enablePhoneSubscription,jdbcType=TINYINT},
+      middle_head_url = #{middleHeadUrl,jdbcType=VARCHAR},
+      big_head_url = #{bigHeadUrl,jdbcType=VARCHAR},
+      qq = #{qq,jdbcType=VARCHAR},
+      weixin = #{weixin,jdbcType=VARCHAR},
+      education = #{education,jdbcType=TINYINT},
+      brithday = #{brithday,jdbcType=DATE},
+      profession = #{profession,jdbcType=INTEGER},
+      province = #{province,jdbcType=TINYINT},
+      city = #{city,jdbcType=SMALLINT},
+      district = #{district,jdbcType=INTEGER},
+      interest = #{interest,jdbcType=VARCHAR},
+      last_modify_district_time = #{lastModifyDistrictTime,jdbcType=DATE},
+      address = #{address,jdbcType=VARCHAR},
+      invite_count = #{inviteCount,jdbcType=INTEGER},
+      expired_time = #{expiredTime,jdbcType=TIMESTAMP},
+      province_name = #{provinceName,jdbcType=VARCHAR},
+      city_name = #{cityName,jdbcType=VARCHAR},
+      district_name = #{districtName,jdbcType=VARCHAR},
+      profession_name = #{professionName,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+</mapper>

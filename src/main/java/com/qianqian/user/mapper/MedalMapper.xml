@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianqian.user.mapper.MedalMapper">
+  <resultMap id="BaseResultMap" type="com.qianqian.user.model.Medal">
+    <id column="user_medal_id" jdbcType="BIGINT" property="userMedalId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="brand_id" jdbcType="BIGINT" property="brandId" />
+    <result column="medal_count" jdbcType="VARCHAR" property="medalCount" />
+    <result column="brand_name" jdbcType="VARCHAR" property="brandName" />
+    <result column="logo_url" jdbcType="VARCHAR" property="logoUrl" />
+    <result column="show_level" jdbcType="TINYINT" property="showLevel" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    user_medal_id, user_id, brand_id, medal_count, brand_name, logo_url, show_level
+  </sql>
+  <select id="selectByExample" parameterType="com.qianqian.user.model.MedalExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from mem_medal
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from mem_medal
+    where user_medal_id = #{userMedalId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from mem_medal
+    where user_medal_id = #{userMedalId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.qianqian.user.model.MedalExample">
+    delete from mem_medal
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.qianqian.user.model.Medal">
+    insert into mem_medal (user_medal_id, user_id, brand_id, 
+      medal_count, brand_name, logo_url, 
+      show_level)
+    values (#{userMedalId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{brandId,jdbcType=BIGINT}, 
+      #{medalCount,jdbcType=VARCHAR}, #{brandName,jdbcType=VARCHAR}, #{logoUrl,jdbcType=VARCHAR}, 
+      #{showLevel,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qianqian.user.model.Medal">
+    insert into mem_medal
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userMedalId != null">
+        user_medal_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="brandId != null">
+        brand_id,
+      </if>
+      <if test="medalCount != null">
+        medal_count,
+      </if>
+      <if test="brandName != null">
+        brand_name,
+      </if>
+      <if test="logoUrl != null">
+        logo_url,
+      </if>
+      <if test="showLevel != null">
+        show_level,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userMedalId != null">
+        #{userMedalId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="brandId != null">
+        #{brandId,jdbcType=BIGINT},
+      </if>
+      <if test="medalCount != null">
+        #{medalCount,jdbcType=VARCHAR},
+      </if>
+      <if test="brandName != null">
+        #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="logoUrl != null">
+        #{logoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="showLevel != null">
+        #{showLevel,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.qianqian.user.model.MedalExample" resultType="java.lang.Integer">
+    select count(*) from mem_medal
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update mem_medal
+    <set>
+      <if test="record.userMedalId != null">
+        user_medal_id = #{record.userMedalId,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.brandId != null">
+        brand_id = #{record.brandId,jdbcType=BIGINT},
+      </if>
+      <if test="record.medalCount != null">
+        medal_count = #{record.medalCount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.brandName != null">
+        brand_name = #{record.brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logoUrl != null">
+        logo_url = #{record.logoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.showLevel != null">
+        show_level = #{record.showLevel,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update mem_medal
+    set user_medal_id = #{record.userMedalId,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      brand_id = #{record.brandId,jdbcType=BIGINT},
+      medal_count = #{record.medalCount,jdbcType=VARCHAR},
+      brand_name = #{record.brandName,jdbcType=VARCHAR},
+      logo_url = #{record.logoUrl,jdbcType=VARCHAR},
+      show_level = #{record.showLevel,jdbcType=TINYINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qianqian.user.model.Medal">
+    update mem_medal
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="brandId != null">
+        brand_id = #{brandId,jdbcType=BIGINT},
+      </if>
+      <if test="medalCount != null">
+        medal_count = #{medalCount,jdbcType=VARCHAR},
+      </if>
+      <if test="brandName != null">
+        brand_name = #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="logoUrl != null">
+        logo_url = #{logoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="showLevel != null">
+        show_level = #{showLevel,jdbcType=TINYINT},
+      </if>
+    </set>
+    where user_medal_id = #{userMedalId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qianqian.user.model.Medal">
+    update mem_medal
+    set user_id = #{userId,jdbcType=BIGINT},
+      brand_id = #{brandId,jdbcType=BIGINT},
+      medal_count = #{medalCount,jdbcType=VARCHAR},
+      brand_name = #{brandName,jdbcType=VARCHAR},
+      logo_url = #{logoUrl,jdbcType=VARCHAR},
+      show_level = #{showLevel,jdbcType=TINYINT}
+    where user_medal_id = #{userMedalId,jdbcType=BIGINT}
+  </update>
+  
+</mapper>
